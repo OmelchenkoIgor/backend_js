@@ -4,11 +4,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config();
+
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // Підключення до бази даних MongoDB
-mongoose.connect('mongodb+srv://test_user_admin:ycC7j7xVTb2O2Sks@clustertest.h50ds22.mongodb.net/moviebox?retryWrites=true&w=majority');
+mongoose.connect(process.env.MONGODB_CONNECT_URI);
 
 // Визначення схеми користувача в базі даних
 const userSchema = new mongoose.Schema({
