@@ -30,6 +30,7 @@ function generateToken(user) {
     return jwt.sign({ id: user._id, email: user.email, password: user.password }, 'your-secret-key', { expiresIn: '1h' });
 }
 
+
 // Обробник запиту POST для створення нового користувача
 app.post('/api/users', async (req, res) => {
     try {
