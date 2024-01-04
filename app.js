@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 // Підключення до бази даних MongoDB
-mongoose.connect('your-url');
+mongoose.connect('mongodb+srv://test_user_admin:ycC7j7xVTb2O2Sks@clustertest.h50ds22.mongodb.net/moviebox?retryWrites=true&w=majority');
 
 // Визначення схеми користувача в базі даних
 const userSchema = new mongoose.Schema({
