@@ -9,6 +9,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT;
+const bcrypt = require('bcryptjs');
 
 // Підключення до бази даних MongoDB
 mongoose.connect(process.env.MONGODB_CONNECT_URI);
@@ -27,7 +28,7 @@ app.use(bodyParser.json());
 
 // Функція для генерації JWT токена на основі даних користувача
 function generateToken(user) {
-    return jwt.sign({ id: user._id, email: user.email, password: user.password }, 'your-secret-key', { expiresIn: '1h' });
+    return jwt.sign({ id: user._id, email: user.email, password: user.password }, 'your-secret-key', { expiresIn: '24h' });
 }
 
 // Обробник запиту POST для створення нового користувача
@@ -59,17 +60,29 @@ app.post('/api/users', async (req, res) => {
 // Обробник запиту POST для авторизації користувача за допомогою JWT токена
 app.post('/api/users/login', async (req, res) => {
     try {
-        const { token } = req.body;
-        const decodedToken = jwt.verify(token, 'your-secret-key');
-        const user = await User.findOne({ email: decodedToken.email, password: decodedToken.password });
+        let user;
 
-        if (!user) {
-            return res.status(401).json({ message: 'Неправильний токен' });
+        if (req.body.token) {
+            const { token } = req.body;
+            const decodedToken = jwt.verify(token, 'your-secret-key');
+            user = await User.findOne({ email: decodedToken.email });
+        } else {
+            const { email, password } = req.body;
+
+            user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(401).json({ message: 'Неправильні дані авторизації' });
+            }
+
+            if (password !== user.password) {
+                return res.status(401).json({ message: 'Неправильні дані авторизації' });
+            }
         }
 
         const newToken = generateToken(user);
 
-        res.status(200).json({ message: 'Вхід за допомогою токена успішний', token: newToken });
+        res.status(200).json({ message: 'Вхід успішний', token: newToken });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Помилка сервера' });
