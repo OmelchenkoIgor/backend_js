@@ -9,7 +9,6 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT;
-const bcrypt = require('bcryptjs');
 
 // Підключення до бази даних MongoDB
 mongoose.connect(process.env.MONGODB_CONNECT_URI);
