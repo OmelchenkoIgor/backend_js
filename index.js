@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -24,6 +25,8 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 app.use(bodyParser.json());
+
+app.use(cors({ origin: 'http://localhost:4200' }));
 
 // Функція для генерації JWT токена на основі даних користувача
 function generateToken(user) {
