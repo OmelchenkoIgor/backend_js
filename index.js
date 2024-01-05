@@ -26,7 +26,7 @@ const User = mongoose.model('User', userSchema);
 
 app.use(bodyParser.json());
 
-app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(cors({ origin: true }));
 
 // Функція для генерації JWT токена на основі даних користувача
 function generateToken(user) {
