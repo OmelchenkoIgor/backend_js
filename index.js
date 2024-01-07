@@ -74,11 +74,11 @@ app.post('/api/users/login', async (req, res) => {
             user = await User.findOne({ email });
 
             if (!user) {
-                return res.status(401).json({ message: 'Неправильні дані авторизації' });
+                return res.status(401).json({ message: 'Wrong authorization data' });
             }
 
             if (password !== user.password) {
-                return res.status(401).json({ message: 'Неправильні дані авторизації' });
+                return res.status(401).json({ message: 'Wrong authorization data' });
             }
         }
 
