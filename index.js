@@ -52,7 +52,7 @@ app.post('/api/users', async (req, res) => {
         await newUser.save();
 
         const token = generateToken(newUser);
-        res.status(201).json({ message: `Користувач успішно доданий! ${name}`, token });
+        res.status(201).json({ message: `Користувач успішно доданий! ${name}`, token: token, name: name });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Помилка сервера' });
