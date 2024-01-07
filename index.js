@@ -84,7 +84,7 @@ app.post('/api/users/login', async (req, res) => {
 
         const newToken = generateToken(user);
 
-        res.status(200).json({ message: 'Вхід успішний', token: newToken });
+        res.status(200).json({ message: 'Вхід успішний', token: newToken, name: user.name });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Помилка сервера' });
